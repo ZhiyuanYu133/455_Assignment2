@@ -303,6 +303,11 @@ class GtpConnection:
     Assignment 2 - game-specific commands you have to implement or modify
     ==========================================================================
     """
+
+    def gogui_timer(self,arg):
+        # need to implement
+        return self
+
     def gogui_rules_final_result_cmd(self, args):
         """ Implement this method correctly """
         legal_moves = GoBoardUtil.generate_legal_moves(self.board, self.board.current_player)
@@ -318,7 +323,7 @@ class GtpConnection:
         """
         play a move args[1] for given color args[0] in {'b','w'}
         """
-        # change this method to use your solver
+        # change this method to use your solver (do not need to change, but solver needs to determine win from state given my play_cmd)
         try:
             board_color = args[0].lower()
             board_move = args[1]
