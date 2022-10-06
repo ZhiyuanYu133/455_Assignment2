@@ -323,6 +323,7 @@ class GtpConnection:
         """
         play a move args[1] for given color args[0] in {'b','w'}
         """
+        # don't have to do much in this function
         # change this method to use your solver (do not need to change, but solver needs to determine win from state given my play_cmd)
         try:
             board_color = args[0].lower()
