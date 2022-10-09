@@ -375,30 +375,31 @@ class GtpConnection:
         # If current player is winner, then we check if move is legal and if so, we will play it
         # If current player is not the winner, or the timer for solver takes too long, then we play a random move 
         winner = self.solve_cmd(self.board, color)
-        if (time > timelimit) or winner != self.board.current_player:
 
+        if (time <= timelimit) and winner == True:
+            move = winner.move  # get winning move given by solve_cmd
+            if self.board.is_legal(move, color):
+                self.board.play_move(move, color)
+                self.respond(move_as_string)
+            else:
+                self.respond("Illegal move: {}".format(move_as_string))
+
+        else:
             move_coord = point_to_coord(move, self.board.size)
             move_as_string = format_point(move_coord)
 
             if self.board.is_legal(move, color):
                 self.board.play_move(move, color)
                 self.respond(move_as_string)
-
             else:
-                self.respond("Illegal move: {}".format(move_as_string))
-
-        if (time < timelimit) or winner -= self.board.current_player:
-            move = winner.move # get winning move given by solve_cmd 
-            if self.board.is_legal(move, color):
-                self.board.play_move(move, color)
-                self.respond(move_as_string)
-            else:
-                self.respond("Illegal move: {}".format(move_as_string))
-            
+                self.respond("Illegal move: {}".format(move_as_string))  
             
     def solve_cmd(self, args: List[str]) -> None:
         # remove this respond and implement this method
-        self.respond('Implement This for Assignment 2')
+        toPlay = self.board.current_player
+
+        return winner, move
+
 
     """
     ==========================================================================
