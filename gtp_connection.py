@@ -358,18 +358,42 @@ class GtpConnection:
         # change this method to use your solver
         board_color = args[0].lower()
         color = color_to_int(board_color)
+        gtp_moves: List[str] = self.__get_legal_moves()
+
+        # if game over (no other moves) we resign and return a pass
+        if len(gtp_moves) == 0:
+            self.respond('resign')
+            return
+
         move = self.go_engine.get_move(self.board, color)
         if move is None:
             self.respond('unknown')
             return
-            
-        move_coord = point_to_coord(move, self.board.size)
-        move_as_string = format_point(move_coord)
-        if self.board.is_legal(move, color):
-            self.board.play_move(move, color)
-            self.respond(move_as_string)
-        else:
-            self.respond("Illegal move: {}".format(move_as_string))
+
+        # poor implementation (just to get rough idea)
+        # get the winner (and move) from solver and check if the current player is the winner
+        # If current player is winner, then we check if move is legal and if so, we will play it
+        # If current player is not the winner, or the timer for solver takes too long, then we play a random move 
+        winner = self.solve_cmd(self.board, color)
+        if (time > timelimit) or winner != self.board.current_player:
+
+            move_coord = point_to_coord(move, self.board.size)
+            move_as_string = format_point(move_coord)
+
+            if self.board.is_legal(move, color):
+                self.board.play_move(move, color)
+                self.respond(move_as_string)
+
+            else:
+                self.respond("Illegal move: {}".format(move_as_string))
+
+        if (time < timelimit) or winner -= self.board.current_player:
+            move = winner.move # get winning move given by solve_cmd 
+            if self.board.is_legal(move, color):
+                self.board.play_move(move, color)
+                self.respond(move_as_string)
+            else:
+                self.respond("Illegal move: {}".format(move_as_string))
             
             
     def solve_cmd(self, args: List[str]) -> None:
