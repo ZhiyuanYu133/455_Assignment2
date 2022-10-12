@@ -379,11 +379,14 @@ class GtpConnection:
         # remove this respond and implement this method
         limit = self.timelimit()
         winner = None; 
-        #while not (self.)
+        # while within the time limit, solve
+        while not (limit - time.process_time() <= 0): 
+            for move in self.legal_moves_cmd('b'):
+                self.board.play_move(move,'b')
+                
+                
 
 
-
-        self.respond('Implement This for Assignment 2')
 
     """
     ==========================================================================
