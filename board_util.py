@@ -27,12 +27,12 @@ class GoBoardUtil(object):
         legal_moves: List[GO_POINT] = []
         
         for move in moves:
-            if board.is_legal(move, color):
+            if len(board._neighbors()) <= 3:
+                legal_moves.append(move)
+            elif board.is_legal(move, color):
                 legal_moves.append(move)
         return legal_moves
         
-        
-
     @staticmethod
     def generate_random_move(board: GoBoard, color: GO_COLOR, 
                              use_eye_filter: bool) -> GO_POINT:
