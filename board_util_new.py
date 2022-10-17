@@ -27,7 +27,7 @@ class GoBoardUtil(object):
         legal_moves: List[GO_POINT] = []
         
         for move in moves:
-            if len(board._neighbors()) <= 3:
+            if len(board._neighbors(move)) <= 3:
                 legal_moves.append(move)
             elif board.is_legal(move, color):
                 legal_moves.append(move)
